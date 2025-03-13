@@ -1,16 +1,30 @@
 import express from "express";
-import { createTour, deleteTour, getTourById, getTours, updateTour } from "./tour.controller.js";
+import {
+  createTour,
+  getTours,
+  getTourById,
+  deleteTour,
+  updateTour,
+  addReview,
+} from "./tour.controller.js";
+import upload from "../../config/multer.js";
 
 const router = express.Router();
 
-router.post("/", createTour);
+// CREATE Tour
+router.post("/", upload.single("image") , createTour);
 
+// Get all tours
 router.get("/", getTours);
 
+router.post("/:tourId/addReview", addReview);
+
+// // Get single Tour
 router.get("/:tourId", getTourById);
 
-router.put("/:tourId", updateTour);
+// // Update a Tour
+router.patch("/:tourId",upload.single("image") , updateTour);
 
-router.delete("/:tourId"), deleteTour;
-
+// // Delete Tour
+router.delete("/:tourId", deleteTour);
 export default router;
